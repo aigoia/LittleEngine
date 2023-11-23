@@ -24,6 +24,8 @@ namespace little
             glfwPollEvents();
             drawFrame();
         }
+
+        vkDeviceWaitIdle(littleDevice.device());
     }
 
     void FirstApp::createPipelineLayout()
