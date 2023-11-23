@@ -2,11 +2,13 @@
 
 #include <stdexcept>
 #include <array>
+#include <memory>
 
 namespace little
 {
     FirstApp::FirstApp()
     {
+        loadModels();
         createPipelineLayout();
         createPipeline();
         createCommandBuffers();
@@ -26,6 +28,17 @@ namespace little
         }
 
         vkDeviceWaitIdle(littleDevice.device());
+    }
+
+    void FirstApp::loadModels()
+    {
+        std::vector<LittleModel::Vertex> vertices{
+            {{0.0f, -0.5f}},
+            {{0.5f, 0.5f}},
+            {{-0.5f, 0.5f}}
+        };
+
+        littleModel = std::make_unique<LittleModel>(littleDevice, vertices);
     }
 
     void FirstApp::createPipelineLayout()
@@ -97,7 +110,10 @@ namespace little
             vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
             littlePipeLine->bind(commandBuffers[i]);
-            vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+            littleModel->bind(commandBuffers[i]);
+            littleModel->draw(commandBuffers[i]);
+
+            // vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
 
             vkCmdEndRenderPass(commandBuffers[i]);
             if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS)

@@ -4,6 +4,7 @@
 #include "little_pipeline.hpp"
 #include "little_device.hpp"
 #include "little_swap_chain.hpp"
+#include "little_model.hpp"
 
 #include <memory>
 #include <vector>
@@ -25,6 +26,7 @@ namespace little
         void run();
 
     private:
+        void loadModels();
         void createPipelineLayout();
         void createPipeline();
         void createCommandBuffers();
@@ -36,5 +38,6 @@ namespace little
         std::unique_ptr<LittlePipeLine> littlePipeLine;
         VkPipelineLayout pipelineLayout;
         std::vector<VkCommandBuffer> commandBuffers;
+        std::unique_ptr<LittleModel> littleModel;
     };
 }
