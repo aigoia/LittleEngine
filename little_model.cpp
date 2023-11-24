@@ -46,7 +46,7 @@ namespace little
         vkUnmapMemory(littleDevice.device(), vertexBufferMemory);
     }
 
-    std::vector<VkVertexInputBindingDescription> LittleModel::Vertex::getBindingDescription()
+    std::vector<VkVertexInputBindingDescription> LittleModel::Vertex::getBindingDescriptions()
     {
         std::vector<VkVertexInputBindingDescription> bindingDescription(1);
         bindingDescription[0].binding = 0;
@@ -55,7 +55,7 @@ namespace little
         return bindingDescription;
     }
 
-    std::vector<VkVertexInputAttributeDescription> LittleModel::Vertex::getAttributeDescription()
+    std::vector<VkVertexInputAttributeDescription> LittleModel::Vertex::getAttributeDescriptions()
     {
         std::vector<VkVertexInputAttributeDescription> attributeDescriptions(1);
 
