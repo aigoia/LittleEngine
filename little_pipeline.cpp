@@ -20,7 +20,7 @@ namespace little
     LittlePipeLine::~LittlePipeLine()
     {
         vkDestroyShaderModule(littleDevice.device(), vertShaderModule, nullptr);
-        vkDestroyShaderModule(littleDevice.device(), vertShaderModule, nullptr);
+        vkDestroyShaderModule(littleDevice.device(), fragShaderModule, nullptr);
         vkDestroyPipeline(littleDevice.device(), graphicsPipeline, nullptr);
     }
 
