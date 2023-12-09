@@ -33,10 +33,9 @@ namespace little
     void FirstApp::loadModels()
     {
         std::vector<LittleModel::Vertex> vertices{
-            {{0.0f, -0.5f}},
-            {{0.5f, 0.5f}},
-            {{-0.5f, 0.5f}}
-        };
+            {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+            {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+            {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
 
         littleModel = std::make_unique<LittleModel>(littleDevice, vertices);
     }
