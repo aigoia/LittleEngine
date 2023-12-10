@@ -18,7 +18,7 @@ namespace little
     ~LittleSwapChain();
 
     LittleSwapChain(const LittleSwapChain &) = delete;
-    void operator=(const LittleSwapChain &) = delete;
+    LittleSwapChain &operator=(const LittleSwapChain &) = delete;
 
     VkFramebuffer getFrameBuffer(int index) { return swapChainFramebuffers[index]; }
     VkRenderPass getRenderPass() { return renderPass; }

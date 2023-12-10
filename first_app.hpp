@@ -31,10 +31,12 @@ namespace little
         void createPipeline();
         void createCommandBuffers();
         void drawFrame();
+        void recreateSwapChain();
+        void recordCommandBuffer(int imageIndex);
 
         LittleWindow littleWindow{WIDTH, HIGHT, "Hello Vulkan!"};
         LittleDevice littleDevice{littleWindow};
-        LittleSwapChain littleSwapChain{littleDevice, littleWindow.getExtent()};
+        std::unique_ptr<LittleSwapChain> littleSwapChain;
         std::unique_ptr<LittlePipeLine> littlePipeLine;
         VkPipelineLayout pipelineLayout;
         std::vector<VkCommandBuffer> commandBuffers;

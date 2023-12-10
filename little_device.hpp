@@ -38,7 +38,7 @@ namespace little
 
     // Not copyable or movable
     LittleDevice(const LittleDevice &) = delete;
-    void operator=(const LittleDevice &) = delete;
+    LittleDevice &operator=(const LittleDevice &) = delete;
     LittleDevice(LittleDevice &&) = delete;
     LittleDevice &operator=(LittleDevice &&) = delete;
 

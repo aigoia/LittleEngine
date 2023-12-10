@@ -9,8 +9,13 @@ namespace little
 {
     struct PipelineConfigInfo
     {
+        PipelineConfigInfo() = default;
+        PipelineConfigInfo(const PipelineConfigInfo &) = default;
+        PipelineConfigInfo &operator=(const PipelineConfigInfo &) = default;
+
         VkViewport viewport;
         VkRect2D scissor;
+        VkPipelineViewportStateCreateInfo viewportInfo;
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
         VkPipelineRasterizationStateCreateInfo rasterizationInfo;
         VkPipelineMultisampleStateCreateInfo multisampleInfo;
@@ -33,11 +38,11 @@ namespace little
         ~LittlePipeLine();
 
         LittlePipeLine(const LittlePipeLine &) = delete;
-        void operator=(const LittlePipeLine &) = delete;
+        LittlePipeLine &operator=(const LittlePipeLine &) = delete;
 
         void bind(VkCommandBuffer commandBuffer);
 
-        static PipelineConfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
+        static void defaultPipelineConfigInfo(PipelineConfigInfo &configInfo, uint32_t width, uint32_t height);
 
     private:
         static std::vector<char> readFile(const std::string filepath);
