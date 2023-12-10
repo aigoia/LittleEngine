@@ -4,6 +4,7 @@
 
 #include <vulkan/vulkan.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -15,6 +16,7 @@ namespace little
     static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
     LittleSwapChain(LittleDevice &deviceRef, VkExtent2D windowExtent);
+    LittleSwapChain(LittleDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<LittleSwapChain> previous);
     ~LittleSwapChain();
 
     LittleSwapChain(const LittleSwapChain &) = delete;
@@ -39,6 +41,7 @@ namespace little
     VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
 
   private:
+    void init();
     void createSwapChain();
     void createImageViews();
     void createDepthResources();
@@ -69,6 +72,7 @@ namespace little
     VkExtent2D windowExtent;
 
     VkSwapchainKHR swapChain;
+    std::shared_ptr<LittleSwapChain> oldSwapChain;
 
     std::vector<VkSemaphore> imageAvailableSemaphores;
     std::vector<VkSemaphore> renderFinishedSemaphores;

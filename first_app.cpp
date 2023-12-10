@@ -59,9 +59,7 @@ namespace little
     {
         PipelineConfigInfo pipelineConfig{};
         LittlePipeLine::defaultPipelineConfigInfo(
-            pipelineConfig,
-            littleSwapChain->width(),
-            littleSwapChain->height());
+            pipelineConfig);
 
         pipelineConfig.renderPass = littleSwapChain->getRenderPass();
         pipelineConfig.pipelineLayout = pipelineLayout;
@@ -82,9 +80,22 @@ namespace little
         }
 
         vkDeviceWaitIdle(littleDevice.device());
-        littleSwapChain.reset(nullptr);
-        // littleSwapChain = nullptr;
-        littleSwapChain = std::make_unique<LittleSwapChain>(littleDevice, extent);
+
+        if (littleSwapChain == nullptr)
+        {
+            littleSwapChain = std::make_unique<LittleSwapChain>(littleDevice, extent);
+        }
+        else
+        {
+            littleSwapChain = std::make_unique<LittleSwapChain>(littleDevice, extent, std::move(littleSwapChain));
+
+            if (littleSwapChain->imageCount() != commandBuffers.size())
+            {
+                freeCommandBuffers();
+                createCommandBuffers();
+            }
+        }
+
         createPipeline();
     }
 
@@ -102,6 +113,17 @@ namespace little
         {
             throw std::runtime_error("failed to allocate command buffers!");
         }
+    }
+
+    void FirstApp::freeCommandBuffers()
+    {
+        vkFreeCommandBuffers(
+            littleDevice.device(),
+            littleDevice.getCommandPool(),
+            static_cast<float>(commandBuffers.size()),
+            commandBuffers.data());
+
+        commandBuffers.clear();
     }
 
     void FirstApp::recordCommandBuffer(int imageIndex)
@@ -129,6 +151,17 @@ namespace little
         renderPassInfo.pClearValues = clearValues.data();
 
         vkCmdBeginRenderPass(commandBuffers[imageIndex], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+        VkViewport viewport{};
+        viewport.x = 0.0f;
+        viewport.y = 0.0f;
+        viewport.width = static_cast<float>(littleSwapChain->getSwapChainExtent().width);
+        viewport.height = static_cast<float>(littleSwapChain->getSwapChainExtent().height);
+        viewport.minDepth = 0.0f;
+        viewport.maxDepth = 1.0f;
+        VkRect2D scissor{{0, 0}, littleSwapChain->getSwapChainExtent()};
+        vkCmdSetViewport(commandBuffers[imageIndex], 0, 1, &viewport);
+        vkCmdSetScissor(commandBuffers[imageIndex], 0, 1, &scissor);
 
         littlePipeLine->bind(commandBuffers[imageIndex]);
         littleModel->bind(commandBuffers[imageIndex]);

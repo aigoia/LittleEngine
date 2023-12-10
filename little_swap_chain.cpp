@@ -13,6 +13,20 @@ namespace little
   LittleSwapChain::LittleSwapChain(LittleDevice &deviceRef, VkExtent2D extent)
       : device{deviceRef}, windowExtent{extent}
   {
+    init();
+  }
+
+  LittleSwapChain::LittleSwapChain(LittleDevice &deviceRef, VkExtent2D extent, std::shared_ptr<LittleSwapChain> previous)
+      : device{deviceRef}, windowExtent{extent}, oldSwapChain{previous}
+  {
+    init();
+
+    // clean up old swap chain since it's no longer needed
+    oldSwapChain = nullptr;
+  }
+
+  void LittleSwapChain::init()
+  {
     createSwapChain();
     createImageViews();
     createRenderPass();
@@ -177,7 +191,7 @@ namespace little
     createInfo.presentMode = presentMode;
     createInfo.clipped = VK_TRUE;
 
-    createInfo.oldSwapchain = VK_NULL_HANDLE;
+    createInfo.oldSwapchain = oldSwapChain == nullptr ? VK_NULL_HANDLE : oldSwapChain->swapChain;
 
     if (vkCreateSwapchainKHR(device.device(), &createInfo, nullptr, &swapChain) != VK_SUCCESS)
     {
@@ -415,13 +429,6 @@ namespace little
         return availablePresentMode;
       }
     }
-
-    // for (const auto &availablePresentMode : availablePresentModes) {
-    //   if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-    //     std::cout << "Present mode: Immediate" << std::endl;
-    //     return availablePresentMode;
-    //   }
-    // }
 
     std::cout << "Present mode: V-Sync" << std::endl;
     return VK_PRESENT_MODE_FIFO_KHR;
