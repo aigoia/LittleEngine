@@ -4,7 +4,7 @@
 #include "little_pipeline.hpp"
 #include "little_device.hpp"
 #include "little_swap_chain.hpp"
-#include "little_model.hpp"
+#include "little_game_object.hpp"
 
 #include <memory>
 #include <vector>
@@ -26,7 +26,7 @@ namespace little
         void run();
 
     private:
-        void loadModels();
+        void loadGameObjects();
         void createPipelineLayout();
         void createPipeline();
         void createCommandBuffers();
@@ -34,6 +34,7 @@ namespace little
         void drawFrame();
         void recreateSwapChain();
         void recordCommandBuffer(int imageIndex);
+        void renderGameObjects(VkCommandBuffer commandBuffer);
 
         LittleWindow littleWindow{WIDTH, HIGHT, "Hello Vulkan!"};
         LittleDevice littleDevice{littleWindow};
@@ -41,6 +42,6 @@ namespace little
         std::unique_ptr<LittlePipeLine> littlePipeLine;
         VkPipelineLayout pipelineLayout;
         std::vector<VkCommandBuffer> commandBuffers;
-        std::unique_ptr<LittleModel> littleModel;
+        std::vector<LittleGameObject> gameObjects;
     };
 }
