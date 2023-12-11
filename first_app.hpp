@@ -1,42 +1,35 @@
 #pragma once
 
-#include "little_window.hpp"
-#include "little_pipeline.hpp"
-#include "little_device.hpp"
-#include "little_game_object.hpp"
-#include "little_renderer.hpp"
+#include "lve_device.hpp"
+#include "lve_game_object.hpp"
+#include "lve_renderer.hpp"
+#include "lve_window.hpp"
 
+// std
 #include <memory>
 #include <vector>
 
-namespace little
-{
-    class FirstApp
-    {
-    public:
-        static constexpr int WIDTH = 800;
-        static constexpr int HIGHT = 600;
+namespace lve {
+class FirstApp {
+ public:
+  static constexpr int WIDTH = 800;
+  static constexpr int HEIGHT = 600;
 
-        FirstApp();
-        ~FirstApp();
+  FirstApp();
+  ~FirstApp();
 
-        FirstApp(const LittleWindow &) = delete;
-        FirstApp &operator=(const LittleWindow &) = delete;
+  FirstApp(const FirstApp &) = delete;
+  FirstApp &operator=(const FirstApp &) = delete;
 
-        void run();
+  void run();
 
-    private:
-        void loadGameObjects();
-        void createPipelineLayout();
-        void createPipeline();
-        void renderGameObjects(VkCommandBuffer commandBuffer);
+ private:
+  void loadGameObjects();
 
-        LittleWindow littleWindow{WIDTH, HIGHT, "Hello Vulkan!"};
-        LittleDevice littleDevice{littleWindow};
-        LittleRenderer littleRenderer{littleWindow, littleDevice};
+  LveWindow lveWindow{WIDTH, HEIGHT, "Vulkan Tutorial"};
+  LveDevice lveDevice{lveWindow};
+  LveRenderer lveRenderer{lveWindow, lveDevice};
 
-        std::unique_ptr<LittlePipeLine> littlePipeLine;
-        VkPipelineLayout pipelineLayout;
-        std::vector<LittleGameObject> gameObjects;
-    };
-}
+  std::vector<LveGameObject> gameObjects;
+};
+}  // namespace lve
