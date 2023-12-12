@@ -23,7 +23,7 @@ struct QueueFamilyIndices {
 };
 
 class LveDevice {
- public:
+  public:
 #ifdef NDEBUG
   const bool enableValidationLayers = false;
 #else
@@ -72,7 +72,7 @@ class LveDevice {
 
   VkPhysicalDeviceProperties properties;
 
- private:
+  private:
   void createInstance();
   void setupDebugMessenger();
   void createSurface();
