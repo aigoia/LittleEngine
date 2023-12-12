@@ -10,7 +10,7 @@
 
 namespace lve {
 class SimpleRenderSystem {
- public:
+  public:
   SimpleRenderSystem(LveDevice &device, VkRenderPass renderPass);
   ~SimpleRenderSystem();
 
@@ -19,7 +19,7 @@ class SimpleRenderSystem {
 
   void renderGameObjects(VkCommandBuffer commandBuffer, std::vector<LveGameObject> &gameObjects);
 
- private:
+  private:
   void createPipelineLayout();
   void createPipeline(VkRenderPass renderPass);
 
