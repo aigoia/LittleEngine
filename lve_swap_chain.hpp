@@ -13,7 +13,7 @@
 namespace lve {
 
 class LveSwapChain {
-  public:
+ public:
   static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
   LveSwapChain(LveDevice &deviceRef, VkExtent2D windowExtent);
@@ -44,10 +44,10 @@ class LveSwapChain {
 
   bool compareSwapFormats(const LveSwapChain &swapChain) const {
     return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
-          swapChain.swapChainImageFormat == swapChainImageFormat;
+           swapChain.swapChainImageFormat == swapChainImageFormat;
   }
 
-  private:
+ private:
   void init();
   void createSwapChain();
   void createImageViews();

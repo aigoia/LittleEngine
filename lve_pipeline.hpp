@@ -9,7 +9,6 @@
 namespace lve {
 
 struct PipelineConfigInfo {
-  PipelineConfigInfo() = default;
   PipelineConfigInfo(const PipelineConfigInfo&) = delete;
   PipelineConfigInfo& operator=(const PipelineConfigInfo&) = delete;
 
@@ -28,7 +27,7 @@ struct PipelineConfigInfo {
 };
 
 class LvePipeline {
-  public:
+ public:
   LvePipeline(
       LveDevice& device,
       const std::string& vertFilepath,
@@ -43,7 +42,7 @@ class LvePipeline {
 
   static void defaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
 
-  private:
+ private:
   static std::vector<char> readFile(const std::string& filepath);
 
   void createGraphicsPipeline(

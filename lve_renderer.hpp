@@ -11,7 +11,7 @@
 
 namespace lve {
 class LveRenderer {
-  public:
+ public:
   LveRenderer(LveWindow &window, LveDevice &device);
   ~LveRenderer();
 
@@ -37,7 +37,7 @@ class LveRenderer {
   void beginSwapChainRenderPass(VkCommandBuffer commandBuffer);
   void endSwapChainRenderPass(VkCommandBuffer commandBuffer);
 
-  private:
+ private:
   void createCommandBuffers();
   void freeCommandBuffers();
   void recreateSwapChain();
