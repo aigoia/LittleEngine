@@ -1,4 +1,3 @@
-# include .env
 CFLAGS = -std=c++17 -I. -I$(VULKAN_SDK_PATH)/include
 LDFLAGS = -L$(VULKAN_SDK_PATH)/lib `pkg-config --static --libs glfw3` -lvulkan
 
@@ -9,7 +8,7 @@ fragSources = $(shell find ./shaders -type f -name "*.frag")
 fragObjFiles = $(patsubst %.frag, %.frag.spv, $(fragSources))
 
 TARGET = vulkan.out
-$(TARGET): $(vertObjFiles) $(fragObjFiles) *.cpp *.hpp
+$(TARGET): $(vertObjFiles) *.cpp *.hpp
 	g++ $(CFLAGS) -o $(TARGET) *.cpp $(LDFLAGS)
 
 # make shader targets
